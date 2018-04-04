@@ -1,4 +1,4 @@
-package com.app.icontacts.data;
+package com.app.icontacts.model;
 
 /**
  * Created by saili on 4/3/2018.

@@ -1,4 +1,4 @@
-package com.app.icontacts.data;
+package com.app.icontacts.model;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by saili on 4/3/2018.
  */
 
-public class ContactsResponse {
+public class Contacts {
 
     private String total;
 

@@ -22,7 +22,7 @@ android {
     }
 
     dexOptions {
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "2g"
     }
 
     testOptions {
@@ -45,6 +45,7 @@ dependencies {
     implementation rxDependencies.rxJava
 
     implementation picasso
+    implementation circleImageView
 
 
     testImplementation testingDependencies.junit

@@ -5,13 +5,8 @@ import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
-import com.app.icontacts.BitmapTransform;
-import com.app.icontacts.Constants;
 import com.app.icontacts.model.Data;
 import com.squareup.picasso.Picasso;
-
-import static com.app.icontacts.Constants.IMG_SIZE;
-import static com.app.icontacts.Constants.MAX_HEIGHT;
 
 
 public class ContactItemViewModel extends BaseObservable {
@@ -38,11 +33,9 @@ public class ContactItemViewModel extends BaseObservable {
 
         Picasso.with(imageView.getContext())
                 .load(url)
-                .transform(new BitmapTransform(Constants.MAX_WIDTH, MAX_HEIGHT))
-                .skipMemoryCache()
-                .resize(IMG_SIZE, IMG_SIZE)
-                .centerInside()
                 .into(imageView);
+
+
     }
 
 

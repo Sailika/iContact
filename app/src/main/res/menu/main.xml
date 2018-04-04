@@ -6,6 +6,5 @@
         android:icon="@android:drawable/stat_notify_sync_noanim"
         android:orderInCategory="1"
         android:title="@string/action_refresh"
-        android:iconTint="@color/black"
         app:showAsAction="always"/>
 </menu>

@@ -1,6 +1,7 @@
 package com.app.icontacts.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.app.icontacts.R;
 import com.app.icontacts.data.ContactsService;
 import com.app.icontacts.model.Contacts;
 import com.app.icontacts.model.Data;
+import com.app.icontacts.view.CreateContactsActivity;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -43,8 +45,7 @@ public class ContactsViewModel extends Observable {
     }
 
     public void onClickFabLoad(View view) {
-        initializeViews();
-        fetchStoresList();
+        view.getContext().startActivity(new Intent(view.getContext(), CreateContactsActivity.class));
     }
 
     public void initializeViews() {
@@ -53,7 +54,7 @@ public class ContactsViewModel extends Observable {
         mProgress.set(View.VISIBLE);
     }
 
-    public void fetchStoresList() {
+    public void fetchContactsList() {
         ContactsApplication contactsApplication = ContactsApplication.create(context);
         ContactsService contactService = contactsApplication.getContactsService();
 
@@ -63,7 +64,7 @@ public class ContactsViewModel extends Observable {
                 .subscribe(new Consumer<Contacts>() {
                     @Override
                     public void accept(Contacts contactResponse) throws Exception {
-                        changeStoresDataSet(contactResponse.getData());
+                        changeContactsDataSet(contactResponse.getData());
                         mProgress.set(View.GONE);
                         mLabel.set(View.GONE);
                         mRecycler.set(View.VISIBLE);
@@ -81,7 +82,10 @@ public class ContactsViewModel extends Observable {
         compositeDisposable.add(disposable);
     }
 
-    private void changeStoresDataSet(ArrayList<Data> contacts) {
+    private void changeContactsDataSet(ArrayList<Data> contacts) {
+        if (contactsList != null && contactsList.size() != 0) {
+            contactsList.clear();
+        }
         contactsList.addAll(contacts);
         setChanged();
         notifyObservers();

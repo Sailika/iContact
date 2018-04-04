@@ -26,9 +26,20 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
 
         initDataBinding();
         setSupportActionBar(contactsViewActivityBinding.toolbar);
-        contactsViewActivityBinding.toolbar.setTitleTextColor(getResources().getColor(R.color.black));
-        setupStoreListView(contactsViewActivityBinding.contactsList);
+        setUpContactListView(contactsViewActivityBinding.contactsList);
         setupObserver(contactsViewModel);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        callService();
+
+    }
+
+    private void callService() {
+        contactsViewModel.initializeViews();
+        contactsViewModel.fetchContactsList();
     }
 
     //initialize the view model and the layout ...
@@ -39,7 +50,7 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
     }
 
     //set Adapter to the List View...
-    private void setupStoreListView(RecyclerView contactList) {
+    private void setUpContactListView(RecyclerView contactList) {
         ContactsAdapter adapter = new ContactsAdapter();
         contactList.setAdapter(adapter);
         contactList.setLayoutManager(new LinearLayoutManager(this));
@@ -66,8 +77,7 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
-            contactsViewModel.initializeViews();
-            contactsViewModel.fetchStoresList();
+            callService();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -80,6 +90,7 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
             ContactsAdapter contactsAdapter = (ContactsAdapter) contactsViewActivityBinding.contactsList.getAdapter();
             ContactsViewModel contactsViewModel = (ContactsViewModel) observable;
             contactsAdapter.setContactsList(contactsViewModel.getContactsList());
+            contactsAdapter.notifyDataSetChanged();
         }
     }
 }

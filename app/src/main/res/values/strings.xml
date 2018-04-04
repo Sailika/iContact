@@ -4,4 +4,7 @@
     <string name="error_loading_contacts">There seems to have been some error.</string>
     <string name="loading_contacts">Please wait while your contacts are loading.</string>
     <string name="add">ADD</string>
+    <string name="pleaseWait">Please wait while placing the request</string>
+    <string name="edittext_null">Please fill the required details and try again.</string>
+    <string name="completed">New User Created Successfully!!</string>
 </resources>

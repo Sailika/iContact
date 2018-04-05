@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.app.icontacts.Constants;
 import com.app.icontacts.ContactsApplication;
+import com.app.icontacts.NetworkUtil;
 import com.app.icontacts.R;
 import com.app.icontacts.data.ContactsService;
 import com.app.icontacts.model.CreateContactsRequest;
@@ -43,9 +44,19 @@ public class CreateContactsViewModel extends Observable {
     }
 
     public void createUser(View view) {
+        if (NetworkUtil.isNetworkAvailable(view.getContext())) {
+            startService();
+        } else {
+            Toast.makeText(view.getContext(), view.getContext().getResources().getString(R.string.no_network),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void startService() {
         ContactsApplication contactsApplication = ContactsApplication.create(mContext);
         ContactsService contactService = contactsApplication.getContactsService();
         CreateContactsRequest request = CreateContactsActivity.getRequest();
+
         if (request.getName() != null && request.getName().length() != 0 && request.getJob().length() != 0 && request.getJob() != null) {
             final ProgressDialog dialog = CreateContactsActivity.getProgress(mContext, mContext.getString(R.string.pleaseWait));
             dialog.show();
@@ -62,6 +73,7 @@ public class CreateContactsViewModel extends Observable {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.create_user_error), Toast.LENGTH_LONG).show();
 
                         }
                     });

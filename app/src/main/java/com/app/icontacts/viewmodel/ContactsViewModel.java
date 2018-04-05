@@ -6,9 +6,11 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Toast;
 
 import com.app.icontacts.Constants;
 import com.app.icontacts.ContactsApplication;
+import com.app.icontacts.NetworkUtil;
 import com.app.icontacts.R;
 import com.app.icontacts.data.ContactsService;
 import com.app.icontacts.model.Contacts;
@@ -45,7 +47,13 @@ public class ContactsViewModel extends Observable {
     }
 
     public void onClickFabLoad(View view) {
-        view.getContext().startActivity(new Intent(view.getContext(), CreateContactsActivity.class));
+        if (NetworkUtil.isNetworkAvailable(view.getContext())) {
+            view.getContext().startActivity(new Intent(view.getContext(), CreateContactsActivity.class));
+
+        } else {
+            Toast.makeText(view.getContext(), view.getContext().getResources().getString(R.string.no_action),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public void initializeViews() {

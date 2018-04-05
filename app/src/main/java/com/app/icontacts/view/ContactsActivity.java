@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.app.icontacts.NetworkUtil;
 import com.app.icontacts.R;
 import com.app.icontacts.databinding.ContactsViewActivityBinding;
 import com.app.icontacts.viewmodel.ContactsViewModel;
@@ -38,8 +40,13 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
     }
 
     private void callService() {
-        contactsViewModel.initializeViews();
-        contactsViewModel.fetchContactsList();
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            contactsViewModel.initializeViews();
+            contactsViewModel.fetchContactsList();
+        } else {
+            contactsViewModel.messageLabel.set(getResources().getString(R.string.no_network));
+        }
+
     }
 
     //initialize the view model and the layout ...
